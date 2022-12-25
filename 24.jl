@@ -1,16 +1,16 @@
-function final!(robot, side)
-    if isborder(robot, side)
-        while !isborder(robot, inverse(side))
-            move!(robot, inverse(side))
-        end
-    else
-        move!(robot, side)
-        final!(robot, side)
-        move!(robot, side)
-    end
+arr = Array{Int64}(undef, 12)
+length1 = length(arr)
+println(length1)
+for i in 1:length1
+    arr[i] = rand(1:5)
 end
-
-side = readline()
-side = parse(Int64, side)
-
-final!(robot, HorizonSide(side))
+function recursive_sum!(x::Array{Int64}, len)
+    if len == 0
+        return 0
+    end
+    return x[len] + recursive_sum!(x, len - 1)
+end
+for i in 1:length1
+    println(arr[i], " ")
+end
+println(recursive_sum!(arr, length1))
