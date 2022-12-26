@@ -1,12 +1,15 @@
-function final!(robot)
-    recursive!(robot,Nord)
-end
-
-function recursive!(robot,side)
-    move!(robot,side)
-    if !isborder(robot,side)
-        recursive!(robot,side)
+function moving_recursion!(robot,side)      #Рекурсивно до стены,маркер и обратно
+    if (isborder(robot, side))
+        putmarker!(robot)
+    else
+        move!(robot, side)
+        moving_recursion!(robot, side)
+        move!(robot, inverse(side))
     end
 end
 
-final!(r)
+function main!(robot,side)
+moving_recursion!(robot,side)
+end
+
+inverse(side::HorizonSide) = HorizonSide((Int(side) +2)% 4)
