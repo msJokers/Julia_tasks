@@ -1,22 +1,21 @@
-function final!(robot, side)
-    if !isborder(robot, side)
-        move!(robot, side)
-    else
-        move!(robot, right(side))
-        final!(robot, side)
-        move!(robot, left(side))
-    end
+function moving_recursion!(robot,side)      #рекурсивно до стены,назад вдвойне,если не получится return false
+    if (!isborder(robot,side))
+         move!(robot, side)
+         moving_recursion!(robot, side)
+         for _i in 1:2
+             if (!isborder(robot,inverse(side)))
+                move!(robot, inverse(side))
+             else
+                 return false
+             end
+         end
+     end
+     return true
 end
 
-function right(side)
-    return HorizonSide((Int(side)+1) % 4)
+ 
+function main!(robot,side)
+moving_recursion!(robot,side)
 end
 
-function left(side)
-    return HorizonSide((Int(side)+3) % 4)
-end
-
-side=readline()
-side=parse(Int64, side)
-
-final!(r, HorizonSide(side))
+inverse(side::HorizonSide) = HorizonSide((Int(side) +2)% 4)
